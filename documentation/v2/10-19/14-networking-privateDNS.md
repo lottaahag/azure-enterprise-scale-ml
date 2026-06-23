@@ -328,6 +328,15 @@ For ease, below you can see an ESML AIFActory Excel sheet with ports in the NSG'
 - Note: This setting supports both (SDK v1) and (SDK v2) currently (2024-07-05): 
 ![](./images/14-ports-excel.png)
 
+## NSG Constraints
+
+When customizing Network Security Group rules:
+- Rule descriptions limited to 140 characters. Longer descriptions cause validation errors.
+- Rule priorities must be unique within the same direction (Inbound or Outbound)
+- Use separate priority ranges (e.g., 1000-1999) for custom rules to avoid conflicts
+
+If deployment fails with NSG validation errors, check rule descriptions for length and priorities for uniqueness within the same direction.
+
 # FAQ - Networking
 
 ## Q: How to I trouble shoot Azure Machine Learning networking? Diagnostics? Troubleshoot private endpoint connection problems? 

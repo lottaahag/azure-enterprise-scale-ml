@@ -115,6 +115,7 @@ You need to login via `Azure CLI` and `Github CLI`, but recommendation is to als
     - Choose naming convention: prefix, suffixes
     - Choose which services to enable or disable
     - BYOVNet, BYOSubnet, BYOAce, enableAIGateway
+    - GITHUB_NEW_REPO: Use format `owner/repo-name` (not just repo name)
     - etc
     - **Replace `<todo>` placeholders**: The `.env.template` file contains `<todo>` placeholders that must be replaced with actual values
         - `<todo>` means **mandatory** and must be replaced
@@ -138,25 +139,32 @@ You need to login via `Azure CLI` and `Github CLI`, but recommendation is to als
         }
         ```
 
-    - OUTPUT: The environment in Github should now look something like below (~21 variables in each environment: Dev,Stage, Prod)
+    - OUTPUT: GitHub environments (Dev, Stage, Prod) are populated with variables based on your `.env` configuration. The count varies depending on which services are enabled and which optional fields are populated.
     - ![](../../../../../documentation/v2/20-29/images/24-end-2-end-setup-repo-GH-env-vars.png)
 
-9) Run the Github action workflows for `infra-aifactory-common.yaml`
-10) Set the variable in your .env file called `aifactory_salt`, and then run the script again, `10-GH-create-or-update-github-variables.sh`,  to update your GH variables. 
+9) Run the Github action workflows for `infra-common.yml`
+10) Set the variable in your .env file called `aifactory_salt` if deploying projects
 
-```code yaml
-# Update with values from AI Factory COMMON Resource group.The aifactory_salt can be read from the AI Factory common resource group in names of services such as Azure Datafactory
-# - Example: the 'a4c2b'in "adf-cmn-weu-dev-a4c2b-001" and in Container registry, private endpoints: "pend-kv-cmndev-a4c2b-001-to-vnt-esmlcmn"
-# ...
-# ...
+This is optional for common infrastructure only, but required if running step 11 (project deployments). The `aifactory_salt` is a 5-character deterministic salt from your common deployment that ensures unique resource naming across projects.
+
 ```
-Read more information in the comment section of variables.yaml
+# Extract from your common resource group (5 characters exactly, alphanumeric)
+# The aifactory_salt can be read from common resource group names such as Azure Datafactory
+# Example: the 'a4c2b' in "adf-cmn-weu-dev-a4c2b-001" or in Container registry: "pend-kv-cmndev-a4c2b-001-to-vnt-esmlcmn"
+# Set AIFACTORY_SALT in your .env file with this 5-character value
+```
+
+Then run the script to update GitHub variables:
+
+    bash ./10-GH-create-or-update-github-variables.sh
+
+Proceed to step 11 to deploy projects.
 
 11) Run the workflow `infra-project.yml`
 
 ## Workflow: AIFactory Common 
 Start with setting up a common AIFactory environment, example, the DEV environment
-- [infra-aifactory-common.yaml](./esml-infra-common/infra-aifactory-common.yaml)
+- [infra-common.yml](./infra-common.yml)
 
 ## Workflow: AIFactory projects
 Then you can import and run the pipelines to setup 1-M projects. There are 2 AIFactory project types supported as of now: 
