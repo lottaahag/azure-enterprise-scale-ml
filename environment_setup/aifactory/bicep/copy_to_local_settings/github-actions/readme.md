@@ -82,6 +82,12 @@ OUTPUT: The file structure should now look something like below (except paramete
    ```sh
     gh auth login
    ```
+
+### Service Principal Setup
+The service principal (e.g., `esml-common-bicep-sp`) needs proper Azure permissions:
+- Must have **Owner** role on the subscription (not "User Access Administrator" with conditions)
+- RBAC conditions may block deployments — assign role **without conditions**
+
 <!--
 5) Authenticate to  Azure and Github
 You need to login via `Azure CLI` and `Github CLI`, but recommendation is to also test login via `Powershell`. 
@@ -110,6 +116,11 @@ You need to login via `Azure CLI` and `Github CLI`, but recommendation is to als
     - Choose which services to enable or disable
     - BYOVNet, BYOSubnet, BYOAce, enableAIGateway
     - etc
+    - **Replace `<todo>` placeholders**: The `.env.template` file contains `<todo>` placeholders that must be replaced with actual values
+        - `<todo>` means **mandatory** and must be replaced
+        - Examples: `GITHUB_USERNAME`, `TENANT_ID`, `DEV_SUBSCRIPTION_ID`, `AIFACTORY_SEEDING_KEYVAULT_NAME`
+        - Validation: Before running step 8, search your `.env` file for `<todo>` - there should be **zero** matches
+
 8) Run the file created at your root called: `10-GH-create-or-update-github-variables.sh`, that will copy values from .env to your Github repo as Environment variables, and secrets.
     - NB! The below will use Github CLI (gh), if the command does not work, please see PREREQUISITES.
     ```
