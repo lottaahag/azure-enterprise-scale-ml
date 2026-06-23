@@ -114,6 +114,8 @@ You need to login via `Azure CLI` and `Github CLI`, but recommendation is to als
     - etc
     - **Replace `<todo>` placeholders**: The `.env.template` file contains `<todo>` placeholders that must be replaced with actual values
         - `<todo>` means **mandatory** and must be replaced
+        - Examples: `GITHUB_USERNAME`, `TENANT_ID`, `DEV_SUBSCRIPTION_ID`, `AIFACTORY_SEEDING_KEYVAULT_NAME`
+        - Validation: Before running step 8, search your `.env` file for `<todo>` - there should be **zero** matches
 
 8) Run the file created at your root called: `10-GH-create-or-update-github-variables.sh`, that will copy values from .env to your Github repo as Environment variables, and secrets.
     - NB! The below will use Github CLI (gh), if the command does not work, please see PREREQUISITES.
